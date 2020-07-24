@@ -1,0 +1,36 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: authnz-frontend
+  namespace: foo
+spec:
+  gateways:
+  - nginx-gateway
+  hosts:
+  - "dalptest.com"
+  http:
+  - match:
+    - uri:
+        prefix: "/"
+#    - authority:
+#        exact: "dalptest.com"
+    route:
+    - destination:
+        host: authnz-frontend.foo.svc.cluster.local
+        subset: v1
+        port:
+          number: 80
+      weight: 100
+#    - destination:
+#        host: frontend.default.svc.cluster.local
+#        subset: v2
+#        port:
+#          number: 80
+#      weight: 0
+
+---
+
+
+
+
+

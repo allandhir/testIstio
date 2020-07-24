@@ -1,0 +1,24 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: "RequestAuthentication"
+metadata:
+  name: "jwt-authn"
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  jwtRules:
+  - issuer: "accounts.google.com"
+    jwksUri: "https://www.googleapis.com/oauth2/v3/certs"
+#    jwks: |
+#      {"keys": [{"e": "AQAB","kid":"4e4ebe487d5cdf2b026a3b229d86f0d4258449fe","kty":"RSA","n":"zCNE-FWFIM7ei_e8hqjW3MTndHJxpQ1aJEFuDjzXqlTkoF_mDgZIynUOzypUDtfWxN81-irNoCIYNQQam8zO_gkQr3aXmY6oXCdyXb24YD0oudxjtIGaKkPB9DfEZsKat6YA9MYFg3xklLAncmvksc8Tqu_uB1U3n1XcKUb12FhkUEUJVBZINo74aItEwsYx9ZyTkqEJnvL9YBja3dwSON0fm8DD_SeeFv7sRQhcQDUHYZj6jjiLfXEQzGmrbyzabGbVfzFZD0X7elGItXoJofb1UXadO_K_jVEXq_jtra7At2jJLYLwRFXG-HhRI7-qsPAdw8QnpeDy2ej8k9zCPw"}]}
+    forwardOriginalToken: true
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,62 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: authnz-backend
+  namespace: bar	
+spec:
+#  gateways: []
+  hosts:
+    - authnz-backend.bar.svc.cluster.local
+#  - "dalptest.com"
+  http:
+#  - fault:
+#      delay:
+#        fixedDelay: 10s
+#        percentage:
+#          value: 100
+#  - match:
+#    - uri:
+#        prefix: "/info"
+#    - uri:
+#        prefix: "/headers"
+#  - timeout: 100ms
+  - match:
+    - headers:
+        Cookie:
+          regex: "^.*version=v1.*$"
+    route:
+    - destination:
+        host: authnz-backend.bar.svc.cluster.local
+        subset: v1
+
+  - match:
+    - headers:
+        Cookie:
+#          exact: "G_ENABLED_IDPS=google; version=v2"
+          regex: "^.*version=v2.*$"
+    route:
+    - destination:
+        host: authnz-backend.bar.svc.cluster.local
+        subset: v2
+
+  - route:
+    - destination:
+        host: authnz-backend.bar.svc.cluster.local
+        subset: v1
+      weight: 50
+      headers:
+        response:
+          add:
+            "Set-Cookie": version=v1; Max-Age=2592000
+    - destination:
+        host: authnz-backend.bar.svc.cluster.local
+        subset: v2
+#        port:
+#          number: 80
+      weight: 50
+      headers:
+        response:
+          add:
+            Set-Cookie: version=v2; Max-Age=2592000
+
+

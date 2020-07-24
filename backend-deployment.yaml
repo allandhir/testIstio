@@ -1,0 +1,139 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: backend-sa
+  namespace: bar
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: authnz-backend-v1
+  namespace: bar
+  labels:
+    app: authnz-backend
+    version: v1
+  annotations:
+    sidecar.istio.io/inject: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authnz-backend
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: authnz-backend
+        version: v1
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
+    spec:
+      serviceAccountName: backend-sa
+      containers:
+      - name: authnz-backend-container
+        image: authnz-backend:v1
+#        securityContext:
+#          allowPrivilegeEscalation: false
+        ports:
+        - containerPort: 8001
+        resources:
+          limits:
+            cpu: 150m
+            memory: 100Mi
+          requests:
+            cpu: 100m
+            memory: 50Mi
+
+#        livenessProbe:
+#          httpGet:
+#            path: /health
+#            port: 8001
+#          failureThreshold: 3
+#          periodSeconds: 10
+
+        livenessProbe:
+          exec:
+            command:
+            - curl
+            - -f
+            - http://localhost:8001/health
+          failureThreshold: 3
+          periodSeconds: 5
+
+        readinessProbe:
+          httpGet:
+            path: /headers
+            port: 8001
+#          initialDelaySeconds: 3
+          failureThreshold: 2
+          periodSeconds: 5
+
+# sidecar.istio.io/rewriteAppHTTPProbers: "true" doesn't cover startupProbe As of Istio-1.6.5. so use exec command curl if mTLS is enabled
+
+#        startupProbe:
+#          httpGet:
+#            path: /health
+#            port: 8001
+#          failureThreshold: 3
+#          periodSeconds: 5
+        startupProbe:
+          exec:
+            command:
+            - curl
+            - -f
+            - http://localhost:8001/health
+          failureThreshold: 3
+          periodSeconds: 5
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: authnz-backend-v2
+  namespace: bar
+  labels:
+    app: authnz-backend
+    version: v2
+  annotations:
+    sidecar.istio.io/inject: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authnz-backend
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: authnz-backend
+        version: v2
+    spec:
+      serviceAccountName: backend-sa
+      containers:
+      - name: authnz-backend-container
+        image: authnz-backend:v2
+        ports:
+        - containerPort: 8001
+#        resources:
+#          limits:
+#            cpu: 150m
+#            memory: 100Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authnz-backend
+  namespace: bar
+  labels:
+    app: authnz-backend
+spec:
+  selector:
+    app: authnz-backend
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8001
+              
+

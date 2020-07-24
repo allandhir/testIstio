@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: frontend-sa
+  namespace: foo
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authnz-frontend-v1
+  namespace: foo
+  labels:
+    app: authnz-frontend
+    version: v1
+  annotations:
+    sidecar.istio.io/inject: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authnz-frontend
+  template:
+    metadata:
+      labels:
+        app: authnz-frontend
+        version: v1
+    spec:
+      restartPolicy: Always
+      serviceAccountName: frontend-sa
+      containers:
+      - name: authnz-frontend-container
+        image: authnz-frontend:v1
+        ports:
+        - containerPort: 80
+#        resources:
+#          limits:
+#            cpu: 150m
+#          requests:
+#            cpu: 100m
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          failureThreshold: 5
+          periodSeconds: 10
+
+#        readinessProbe:
+#          httpGet:
+#            path: /infos
+#            port: 80
+#          initialDelaySeconds: 3
+#          failureThreshold: 2
+#          periodSeconds: 5
+
+        startupProbe:
+          httpGet:
+            path: /
+            port: 80
+          failureThreshold: 3
+          periodSeconds: 3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authnz-frontend
+  namespace: foo
+  labels:
+    app: authnz-frontend  
+spec:
+  selector:
+    app: authnz-frontend
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80

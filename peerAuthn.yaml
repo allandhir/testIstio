@@ -1,0 +1,22 @@
+#apiVersion: security.istio.io/v1beta1
+#kind: PeerAuthentication
+#metadata:
+#  name: pauthn
+#  namespace: bar
+#spec:
+#  mtls:
+#    mode: STRICT
+apiVersion: "security.istio.io/v1beta1"
+kind: "PeerAuthentication"
+metadata:
+  name: "portlevel-pauthn"
+  namespace: "bar"
+spec:
+  selector:
+    matchLabels:
+      app: authnz-backend
+  mtls:
+    mode: STRICT
+  portLevelMtls:
+    8001:
+      mode: STRICT

@@ -1,0 +1,72 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: authnz-backend
+  namespace: bar	
+spec:
+#  gateways: []
+  hosts:
+    - authnz-backend.bar.svc.cluster.local
+#  - "dalptest.com"
+  http:
+#  - fault:
+#      delay:
+#        fixedDelay: 10s
+#        percentage:
+#          value: 100
+#  - match:
+#    - uri:
+#        prefix: "/info"
+#    - uri:
+#        prefix: "/headers"
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: authnz-backend
+  namespace: bar
+spec:
+  host: authnz-backend.bar.svc.cluster.local
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+    trafficPolicy:
+      tls:
+        mode: ISTIO_MUTUAL
+      loadBalancer:
+#        simple: ROUND_ROBIN
+        consistentHash:
+          useSourceIp: true
+#           httpHeaderName: x-user
+      connectionPool:
+        tcp:
+          maxConnections: 1
+#          connectTimeout: 20ms
+        http:
+          http2MaxRequests: 1
+          http1MaxPendingRequests: 1
+          maxRequestsPerConnection: 1
+      outlierDetection:
+        baseEjectionTime: 20s
+        consecutive5xxErrors: 1
+        interval: 10s
+        maxEjectionPercent: 100
+  - name: v2
+    labels:
+      version: v2
+    trafficPolicy:
+      loadBalancer:
+        simple: LEAST_CONN
+      connectionPool:
+        tcp:
+          maxConnections: 10
+#          connectTimeout: 20ms
+        http:
+          maxRequestsPerConnection: 10
+          http1MaxPendingRequests: 10
+      outlierDetection:
+        baseEjectionTime: 20s
+        consecutiveErrors: 3
+        interval: 10s
+        maxEjectionPercent: 100
+---

@@ -1,0 +1,19 @@
+#outputy{
+    color: rgb(46, 108,230);
+    text-align: left;
+    background-color: white;
+    border-radius: 15px;
+    height: 18%;
+    width: 30%;
+    position: absolute;
+    left: 55%;
+    top: 28%;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 22px 56px 0 rgba(0,0,0,0.19);
+    
+  }
+  #stdouty{
+    font-family: "Courier New", Courier, monospace;
+    margin: 3% 3% 3% 3%;
+    text-align: justify;
+    scroll-behavior: smooth;
+  }

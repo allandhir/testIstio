@@ -31,7 +31,7 @@ spec:
       serviceAccountName: backend-sa
       containers:
       - name: authnz-backend-container
-        image: authnz-backend:v1
+        image: authnz-backend:t1.5
 #        securityContext:
 #          allowPrivilegeEscalation: false
         ports:

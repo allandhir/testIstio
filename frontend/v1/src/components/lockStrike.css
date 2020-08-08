@@ -1,0 +1,132 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    --locked-color: rgb(46, 108, 230);
+    --unlocked-color: #7ac142;
+    }
+    .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    }
+   
+    /* Locked */
+    .lock {
+    width: 20px;
+    height: 17.5px;
+    border: 2px solid var(--locked-color);
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+    -webkit-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+    }
+    .lock:after {
+    content: "";
+    display: block;
+    background: var(--locked-color);
+    width: 2px;
+    height: 4px;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    margin: -1px 0 0 -1px;
+    -webkit-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+    }
+    .lock:before {
+    content: "";
+    display: block;
+    width: 10px;
+    height: 8px;
+    bottom: 110%;
+    position: absolute;
+    left: 50%;
+    margin-left: -7.5px;
+    border: 2px solid var(--locked-color);
+    border-top-right-radius: 50%;
+    border-top-left-radius: 50%;
+    border-bottom: 0;
+    -webkit-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+    }
+
+    /* Unlocked */
+    .unlocked {
+    width: 20px;
+    height: 17.5px;
+    border: 2px solid var(--unlocked-color);
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+    -webkit-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+    transform: rotate(10deg);
+    
+    }
+    .unlocked:before {
+    bottom: 125%;
+    left: 0%;
+    margin-left: -4px;
+    transform: rotate(-45deg);
+    content: "";
+    display: block;
+    width: 10px;
+    height: 8px;
+    position: absolute;
+    border: 2px solid var(--unlocked-color);
+    border-top-right-radius: 50%;
+    border-top-left-radius: 50%;
+    border-bottom: 0;
+    -webkit-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+    }
+    .unlocked,
+    .unlocked:before {
+    border-color: var(--unlocked-color);
+    }
+    .unlocked:after {
+    background: var(--unlocked-color);
+    }
+    
+    /*STRIKE*/
+    @keyframes strike{
+    0%   { width : 100%; }
+    100% { width: 0%; }
+    }
+    .strike {
+    position: relative;
+    color: rgb(46, 108, 230);
+    cursor: pointer;
+    }
+    .strike::after {
+    content: ' ';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    background: rgb(46, 108, 230);;
+    }
+    .nostrike{
+    position: relative;
+    color: rgb(46, 108, 230);
+    text-decoration: none;
+    cursor: pointer;
+    }
+    .nostrike::after{
+    content: ' ';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 0%;
+    height: 1px;
+    background: rgb(46, 108, 230);;
+    animation: strike 0.1s linear 1 backwards;
+    }
+
+    #propname{
+        margin-left: 20px;
+    }

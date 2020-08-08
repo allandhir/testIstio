@@ -1,0 +1,33 @@
+.mybutton {
+    border-radius: 10px;
+    background: linear-gradient(to right, rgb(46, 108, 230) 50%, white 50%);    
+    background-size: 200% 100%;
+    background-position: 90% 0;
+    color: rgb(46, 108, 230);
+    border: none;
+    text-align: left;
+    padding-left: 6%;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    letter-spacing: 2px;
+    /* width: 50%;
+    height: 50px; */
+    outline: none;
+    box-shadow: 0 10px 10px 0 rgba(0,0,0,0.1),0 0px 20px 0 rgba(0,0,0,0.1);
+  }
+  
+  .mybutton:hover{
+    background-position:0% 0%;
+    color: white;
+    
+  }
+  .mybutton:active{
+    animation: fade-in-keyframes 0.3s;  
+  }
+  @keyframes fade-in-keyframes {
+    from {opacity: 0}
+    to {opacity: 1}
+  }

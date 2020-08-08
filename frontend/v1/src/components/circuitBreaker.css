@@ -1,0 +1,116 @@
+.in{
+    border-radius: 10px;
+    border: 1px solid rgb(46, 108, 230);
+    height: 30px;
+    width: 90px;
+    outline: none;
+    cursor: pointer;
+    padding-left: 5px;
+    color: rgb(46, 108, 230);
+}
+#panel{
+    text-align: left;
+    color: rgb(46, 108, 230);
+    position: absolute;
+    top: 31.5%;
+    left: 35%;
+    width: 300px;
+    font-size: 15px;
+}
+td{
+  padding: 5px;  
+}
+
+.in:focus{
+    animation: xoom 0.2s 1;
+    transform: scale(1.1);
+}
+@keyframes xoom {
+    from {transform: scale(1);}
+    to {transform: scale(1.1);}
+  }
+
+#outputx{
+    text-align: left;
+    background-color: white;
+    color: rgb(46, 108, 230);
+    border-radius: 15px;
+    height: 58%;
+    width: 30%;
+    position: absolute;
+    left: 58%;
+    top: 25%;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 22px 56px 0 rgba(0,0,0,0.19);
+    
+  }
+  #stdoutx{
+    font-family: "Courier New", Courier, monospace;
+    margin: 3% 3% 3% 3%;
+    text-align: justify;
+    scroll-behavior: smooth;
+  }
+
+  #stress {
+    border-radius: 10px;
+    background: linear-gradient(to right, rgb(46, 108, 230) 50%, white 50%);
+    
+    background-size: 200% 100%;
+    background-position: 90% 0;
+
+    color: rgb(46, 108, 230);
+    border: none;
+
+    text-align: left;
+    padding-left: 6%;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px 2px;
+    cursor: pointer;
+
+    transition: all 0.3s ease-out;
+    letter-spacing: 2px;
+    width: 7vw;
+    height: 6vh;
+    outline: none;
+    box-shadow: 0 10px 10px 0 rgba(0,0,0,0.1),0 0px 20px 0 rgba(0,0,0,0.1);
+
+    padding-left: 1.1vw;
+  }
+  
+  #stress:hover{
+    background-position:0% 0%;
+    color: white;    
+  }
+  #stress:active{
+    animation: fade-in-keyframes 0.3s;
+  }
+  @keyframes fade-in-keyframes {
+    from {opacity: 0}
+    to {opacity: 1}
+  }
+#help{
+  color: rgb(46, 108, 230);
+  position: absolute;
+  top: 30%;
+  left: 35%;
+  right: 20%;
+  text-align: left;
+  height: 300px;
+  overflow: scroll;
+  overflow-x: hidden;
+
+}
+#help::-webkit-scrollbar {
+  width: 5px;
+}
+
+#help::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 2px rgb(46, 108, 230); 
+  border-radius: 10px;
+}
+
+#help::-webkit-scrollbar-thumb {
+  background: rgb(46, 108, 230); 
+  border-radius: 10px;
+
+}

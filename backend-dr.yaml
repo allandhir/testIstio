@@ -36,8 +36,8 @@ spec:
       loadBalancer:
 #        simple: ROUND_ROBIN
         consistentHash:
-          useSourceIp: true
-#           httpHeaderName: x-user
+#          useSourceIp: true
+          httpHeaderName: x-user
       connectionPool:
         tcp:
           maxConnections: 1
@@ -47,9 +47,9 @@ spec:
           http1MaxPendingRequests: 1
           maxRequestsPerConnection: 1
       outlierDetection:
-        baseEjectionTime: 20s
-        consecutive5xxErrors: 1
-        interval: 10s
+        baseEjectionTime: 30s
+        consecutiveErrors: 1
+        interval: 1s
         maxEjectionPercent: 100
   - name: v2
     labels:
